@@ -4,13 +4,14 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
 import MainCanvas from './components/MainCanvas.vue';
 
-export default {
-  name: 'App',
+@Component({
   components: {
     MainCanvas,
   },
-};
+})
+export default class App extends Vue {}
 </script>
