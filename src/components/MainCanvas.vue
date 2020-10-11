@@ -23,13 +23,13 @@ export default class MainCanvas extends Vue {
 
     this.canvas = htmlCanvasElement.getContext('2d')!;
 
-    requestAnimationFrame(() => this.render);
+    requestAnimationFrame(() => this.draw());
 
     window.addEventListener('keydown', this.keyDown);
     window.addEventListener('keyup', this.keyUp);
   }
 
-  render() {
+  public draw(): void {
     this.canvas.rect(0, 0, 300, 300);
   }
 
