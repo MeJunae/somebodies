@@ -2,104 +2,55 @@
   <canvas id="game" width="800" height="500"></canvas>
 </template>
 
-<script>
-export default {
-  name: 'MainCanvas',
-  props: {
-    msg: String,
-  },
-  data: () => {
-    return {
-      canvas: null,
-      currentSecond: 0,
-      frameCount: 0,
-      frameLastSecond: 0,
-      lastFrameTime: 0,
-      tile: {
-        width: 40,
-        height: 40,
-      },
-      map: {
-        width: 10,
-        height: 10,
-      },
-      // prettier-ignore
-      gameMap: [
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 1, 1, 1, 0, 1, 1, 1, 1, 0,
-        0, 1, 0, 0, 0, 1, 0, 0, 0, 0,
-        0, 1, 1, 1, 1, 1, 1, 1, 1, 0,
-        0, 1, 0, 1, 0, 0, 0, 1, 1, 0,
-        0, 1, 0, 1, 0, 1, 0, 0, 1, 0,
-        0, 1, 1, 1, 1, 1, 1, 1, 1, 0,
-        0, 1, 0, 0, 0, 0, 0, 1, 0, 0,
-        0, 1, 1, 1, 0, 1, 1, 1, 1, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      ]
-    };
-  },
+<script lang="ts">
+import Character from '@/game-components/character';
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { GameKeyEventType } from '@/store/modules/game-key/state';
+import { GameKeyMutation } from '@/store/modules/game-key/mutations';
+
+@Component
+export default class MainCanvas extends Vue {
+  private canvas!: CanvasRenderingContext2D;
+
+  constructor() {
+    super();
+  }
+
   mounted() {
-    this.canvas = document.getElementById('game').getContext('2d');
-    requestAnimationFrame(this.drawGame);
+    const htmlCanvasElement = <HTMLCanvasElement>(
+      document.getElementById('game')
+    );
 
-    this.canvas.font = 'bold 10pt sans-serif';
-  },
-  methods: {
-    drawGame() {
-      if (this.canvas === null) return;
+    this.canvas = htmlCanvasElement.getContext('2d')!;
 
-      var sec = Math.floor(Date.now() / 1000);
+    requestAnimationFrame(() => this.render);
 
-      if (sec != this.currentSecond) {
-        this.currentSecond = sec;
-        this.frameLastSecond = this.frameCount;
-        this.frameCount = 1;
-      } else {
-        this.frameCount++;
-      }
+    window.addEventListener('keydown', this.keyDown);
+    window.addEventListener('keyup', this.keyUp);
+  }
 
-      for (var y = 0; y < this.map.height; y++) {
-        for (var x = 0; x < this.map.width; x++) {
-          switch (this.gameMap[y * this.map.width + x]) {
-            case 0:
-              this.canvas.fillStyle = '#999';
-              break;
-            default:
-              this.canvas.fillStyle = '#eee';
-          }
+  render() {
+    this.canvas.rect(0, 0, 300, 300);
+  }
 
-          this.canvas.fillRect(
-            x * this.tile.width,
-            y * this.tile.height,
-            this.tile.width,
-            this.tile.height
-          );
-        }
-      }
+  keyDown(e: KeyboardEvent) {
+    this.$store.commit(GameKeyMutation.KEY_ACTION, {
+      key: e.key,
+      type: GameKeyEventType.DOWN,
+    });
+  }
 
-      this.canvas.fillStyle = '#f00';
-      this.canvas.fillText('FPS: ' + this.frameLastSecond, 10, 20);
-
-      requestAnimationFrame(this.drawGame);
-    },
-  },
-};
+  keyUp(e: KeyboardEvent) {
+    this.$store.commit(GameKeyMutation.KEY_ACTION, {
+      key: e.key,
+      type: GameKeyEventType.UP,
+    });
+  }
+}
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+canvas {
+  background-color: #fff;
 }
 </style>
