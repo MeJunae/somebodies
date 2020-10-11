@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <MainCanvas msg="Welcome to Your Vue.js App" />
+    <MainCanvas />
   </div>
 </template>
 
@@ -15,3 +15,18 @@ import MainCanvas from './components/MainCanvas.vue';
 })
 export default class App extends Vue {}
 </script>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+}
+
+#app {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #202020;
+}
+</style>
