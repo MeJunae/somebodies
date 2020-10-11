@@ -1,9 +1,5 @@
 {
-  "extends": [
-    "@vue/typescript",
-    "@vue/typescript/recommended",
-    "@vue/prettier/@typescript-eslint"
-  ],
+  "extends": ["@vue/typescript", "@vue/typescript/recommended"],
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
   "rules": {
