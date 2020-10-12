@@ -30,7 +30,8 @@ export default class MainCanvas extends Vue {
   }
 
   public draw(): void {
-    this.canvas.rect(0, 0, 300, 300);
+    const character = new Character();
+    character.draw(this.canvas);
   }
 
   keyDown(e: KeyboardEvent) {
