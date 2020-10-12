@@ -5,8 +5,7 @@
 <script lang="ts">
 import Character from '@/game-components/character';
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { GameKeyEventType } from '@/store/modules/game-key/state';
-import { GameKeyMutation } from '@/store/modules/game-key/mutations';
+import gameInput, { GameKeyEventType } from '@/store/modules/game-input';
 
 @Component
 export default class MainCanvas extends Vue {
@@ -16,7 +15,7 @@ export default class MainCanvas extends Vue {
     super();
   }
 
-  mounted() {
+  public mounted(): void {
     const htmlCanvasElement = <HTMLCanvasElement>(
       document.getElementById('game')
     );
@@ -30,18 +29,19 @@ export default class MainCanvas extends Vue {
   }
 
   public draw(): void {
-    this.canvas.rect(0, 0, 300, 300);
+    const character = new Character();
+    character.draw(this.canvas);
   }
 
-  keyDown(e: KeyboardEvent) {
-    this.$store.commit(GameKeyMutation.KEY_ACTION, {
+  public keyDown(e: KeyboardEvent): void {
+    gameInput.keyPress({
       key: e.key,
       type: GameKeyEventType.DOWN,
     });
   }
 
-  keyUp(e: KeyboardEvent) {
-    this.$store.commit(GameKeyMutation.KEY_ACTION, {
+  public keyUp(e: KeyboardEvent): void {
+    gameInput.keyPress({
       key: e.key,
       type: GameKeyEventType.UP,
     });
