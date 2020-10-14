@@ -3,14 +3,25 @@ export interface GameObjectLocation {
   y: number;
 }
 
+export interface GameObjectSize {
+  width: number;
+  height: number;
+}
+
 export abstract class GameObject {
   public location: GameObjectLocation = {
     x: 0,
     y: 0,
   };
 
-  constructor(location?: GameObjectLocation) {
+  public size: GameObjectSize = {
+    width: 50,
+    height: 50,
+  }
+
+  constructor(location?: GameObjectLocation, size?: GameObjectSize) {
     if (location) this.location = location;
+    if (size) this.size = size;
   }
 
   public moveUp(point = 1): void {

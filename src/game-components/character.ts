@@ -1,16 +1,16 @@
 import { MovementKey } from './../store/modules/game-input';
-import { GameObject, GameObjectLocation } from './game-object';
+import { GameObject, GameObjectLocation, GameObjectSize } from './game-object';
 import gameInput from '@/store/modules/game-input';
 
 export default class Character extends GameObject {
-  constructor(location?: GameObjectLocation) {
-    super(location);
+  constructor(location?: GameObjectLocation, size?: GameObjectSize) {
+    super(location, size);
   }
 
   public draw(canvas: CanvasRenderingContext2D): void {
     canvas.fillStyle = '#f50000';
     canvas.clearRect(0, 0, canvas.canvas.width, canvas.canvas.height);
-    canvas.fillRect(this.location.x, this.location.y, 50, 50);
+    canvas.fillRect(this.location.x, this.location.y, this.size.width, this.size.height);
 
     if (gameInput.keys[MovementKey.Up]) this.moveUp();
 
