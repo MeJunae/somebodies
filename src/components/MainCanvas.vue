@@ -4,6 +4,7 @@
 
 <script lang="ts">
 import Character from '@/game-components/character';
+import Obstacle from '@/game-components/obstacle';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import gameInput, { GameKeyEventType } from '@/store/modules/game-input';
 
@@ -21,8 +22,9 @@ export default class MainCanvas extends Vue {
     );
 
     this.canvas = htmlCanvasElement.getContext('2d')!;
-
     requestAnimationFrame(() => this.draw());
+    const obstacle = new Obstacle({x: 100, y: 100}, {width: 50, height: 50}, '/assets/table.png');
+    obstacle.draw(this.canvas);
 
     window.addEventListener('keydown', this.keyDown);
     window.addEventListener('keyup', this.keyUp);
