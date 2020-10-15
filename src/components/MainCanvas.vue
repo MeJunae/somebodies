@@ -23,8 +23,9 @@ export default class MainCanvas extends Vue {
 
     this.canvas = htmlCanvasElement.getContext('2d')!;
     requestAnimationFrame(() => this.draw());
-    const obstacle = new Obstacle({x: 100, y: 100}, {width: 50, height: 50}, '/assets/table.png');
-    obstacle.draw(this.canvas);
+    var obstacles = [];
+    obstacles.push(new Obstacle({x: 100, y: 100}, {width: 50, height: 50}, '/assets/table.png'));
+    obstacles.forEach((o) => {o.draw(this.canvas)});
 
     window.addEventListener('keydown', this.keyDown);
     window.addEventListener('keyup', this.keyUp);

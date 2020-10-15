@@ -1,3 +1,5 @@
+import Obstacle from './obstacle';
+
 export interface GameObjectLocation {
   x: number;
   y: number;
@@ -22,6 +24,12 @@ export abstract class GameObject {
   constructor(location?: GameObjectLocation, size?: GameObjectSize) {
     if (location) this.location = location;
     if (size) this.size = size;
+  }
+
+  public checkCollider(obstacle: Obstacle[]){
+    obstacle.forEach((o) => {
+
+    });
   }
 
   public moveUp(point = 1): void {
